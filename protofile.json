@@ -7,6 +7,10 @@
             "awesomeField": {
               "type": "string",
               "id": 1
+            },
+            "deviceName": {
+              "type": "string",
+              "id": 2
             }
           }
         }
