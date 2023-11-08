@@ -1,39 +1,34 @@
-import { load } from "protobufjs";
+// import { load } from "protobufjs";
 
 import { connect } from "mqtt";
-
+import { awesomepackage } from "./compiled";
 
 async function proto() {
     try {
         // const fproto_json = await load("protofile.json");
         // console.log(fproto_json);
 
-        const fproto = await load('protofile.proto');
-        console.log(fproto);
+        //const fproto = await load('protofile.proto');
+        //console.log(fproto);
 
-        var AwesomeMessage = fproto.lookupType("awesomepackage.AwesomeMessage");
+        // var AwesomeMessage = fproto.lookupType("awesomepackage.AwesomeMessage");
 
-        var payload = { 
-            awesomeField: "meu teste de protobuf via mqtt",
-            deviceName: "123i102dkiaso0kd12"
-        };
+        let payload = { awesomeField: "teste" };
     
-        
-        var e = AwesomeMessage.verify(payload);
+        var e = awesomepackage.AwesomeMessage.verify(payload);
         if (e)
             throw Error(e);
-        
+    
+        let message = awesomepackage.AwesomeMessage.create(payload);
 
-        var msg = AwesomeMessage.create(payload);
-
-        var buffer = Buffer.from(AwesomeMessage.encode(msg).finish());
-
+        var buffer = Buffer.from(awesomepackage.AwesomeMessage.encode(message).finish());
+        mqtt(buffer);
         console.log(buffer);
         
 
-        var msg = AwesomeMessage.decode(buffer);
-        // console.log(msg);
-        mqtt(buffer);
+        var msg = awesomepackage.AwesomeMessage.decode(buffer);
+        console.log(msg);
+
         
         
     } catch (err) {
@@ -49,7 +44,7 @@ function mqtt(msg: Buffer) {
         client.subscribe("testtopic/+"); // all levels
         
         
-        client.publish("testtopic/69692", msg, { qos: 1 }, (err) => {
+        client.publish("testtopic/69692", msg, (err) => {
             if (err)
                 throw err;
         });
