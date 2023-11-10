@@ -1,7 +1,8 @@
 // import { load } from "protobufjs";
 
 import { connect } from "mqtt";
-import { awesomepackage } from "./compiled";
+import { AwesomeMessage } from "./generated/message_pb";
+import { ListAwesomeMessage } from "./generated/listmessage_pb";
 
 async function proto() {
     try {
@@ -13,24 +14,22 @@ async function proto() {
 
         // var AwesomeMessage = fproto.lookupType("awesomepackage.AwesomeMessage");
 
-        let payload = { awesomeField: "teste" };
-    
-        var e = awesomepackage.AwesomeMessage.verify(payload);
-        if (e)
-            throw Error(e);
-    
-        let message = awesomepackage.AwesomeMessage.create(payload);
+        let msgList = new ListAwesomeMessage();
 
-        var buffer = Buffer.from(awesomepackage.AwesomeMessage.encode(message).finish());
+        let msg = new AwesomeMessage();
+        msg.setAwesomefield("teste");
+        msg.setDevicename("12345");
+
+        msgList.addMessages(msg);
+        msgList.setLen(1);
+
+        let serialized = msg.serializeBinary();
+        let buffer = Buffer.from(serialized);
+
         mqtt(buffer);
-        console.log(buffer);
-        
 
-        var msg = awesomepackage.AwesomeMessage.decode(buffer);
-        console.log(msg);
-
-        
-        
+        let deserialized = AwesomeMessage.deserializeBinary(buffer);
+        console.log(deserialized.toObject());
     } catch (err) {
         throw err;
     }

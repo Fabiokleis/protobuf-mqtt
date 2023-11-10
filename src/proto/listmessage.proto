@@ -1,0 +1,11 @@
+// awesome.proto
+syntax = "proto3";
+package awesomepackage;
+
+import "message.proto";
+
+
+message ListAwesomeMessage {
+    uint32 len = 1;
+    repeated AwesomeMessage messages = 2;
+}

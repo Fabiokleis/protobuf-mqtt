@@ -4,5 +4,5 @@ package awesomepackage;
 
 message AwesomeMessage {
   string awesomeField = 1; // becomes awesome_field awesomeField
-  string deviceName = 2;
+  optional string deviceName = 2;
 }

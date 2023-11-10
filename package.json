@@ -1,13 +1,16 @@
 {
     "name": "protobuf-mqtt",
+    "types": "src/types/compiled.d.ts",
     "scripts": {
-        "dev": "ts-node-dev ./main.ts",
-        "gen": "yarn pbjs -t static-module -w commonjs protofile.proto -o compiled.js; yarn pbts -o proto.d.ts compiled.js; rm compiled.js"
+        "dev": "ts-node-dev ./src/main.ts"
     },
     "dependencies": {
         "mqtt": "^5.1.4",
         "protobufjs": "^7.2.5",
-        "protobufjs-cli": "^1.1.2"
+        "protobufjs-cli": "^1.1.2",
+        "protoc-gen-js": "^3.21.2",
+        "protoc-gen-ts": "^0.8.7",
+        "ts-protoc-gen": "^0.15.0"
     },
     "devDependencies": {
         "@types/long": "^5.0.0",
